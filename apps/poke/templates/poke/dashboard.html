@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Poke Dashboard</title>
+</head>
+<body>
+	<h7><a href="{% url 'poke:logout' %}">Logout</a></h7>
+	<h1>Welcome, {{self.name}}!</h1>
+	<h4>{{selfcount}} people poked you!</h4>
+	<ul>
+		{% for each in eachcount %}
+		<li>{{each.poker.name}} poked you {{each.count}} times.</li>
+		{% endfor %}
+	</ul>
+	<h4>People you may want to poke:</h4>
+	<table>
+		<thead>
+			<th>Name</th>
+			<th>Alias</th>
+			<th>Email Address</th>
+			<th>Poke History</th>
+			<th>Action</th>
+		</thead>
+		{% for pokee in pokees %}
+		<tr>
+			<td>{{pokee.pokee.name}}</td>
+			<td>{{pokee.pokee.alias}}</td>
+			<td>{{pokee.pokee.email}}</td>
+			<td>{{pokee.summed}}</td>
+			<td><a href="{% url 'poke:poke' id=pokee.pokee.id %}"><button>Poke!</button></a></td>
+		</tr>
+		{% endfor %}
+		{% for start in notpoked %}
+		{% if start.email != request.session.user %}
+		<tr>
+			<td>{{start.name}}</td>
+			<td>{{start.alias}}</td>
+			<td>{{start.email}}</td>
+			<td>0</td>
+			<td><a href="{% url 'poke:poke' id=start.id %}"><button>Poke!</button></a></td>
+		</tr>
+		{% endif %}
+		{% endfor %}
+	</table>
+</body>
+</html>
